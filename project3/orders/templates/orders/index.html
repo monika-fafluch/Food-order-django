@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Internal css stylesheet-->
+        <link href="{% static 'styles.css' %}" rel="stylesheet">
+        <title>Login</title>
+    </head>
+    <body>
+        <div class="page">
+            <div class="form-login">
+                <form action="{% url 'index' %}" method="POST">
+                    {% csrf_token %}
+                    <div>
+                        <input type="text" name="username" placeholder="username" autofocus required>
+                    </div>
+                    <div>
+                        <input type="password" name="password" placeholder="password" required>
+                    </div>
+                    {% if loginError %}
+                        <div>
+                            <p>{{loginError}}</p>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <input type="submit" name="submit-login" placeholder="log in">
+                    </div>
+                    <div>
+                        <p>Do you want to <a href="{% url 'register' %}">register?</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

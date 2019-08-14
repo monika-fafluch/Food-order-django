@@ -1,0 +1,293 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+.page
+{
+    background-image: url("images/pizza.png");
+    font-size: 16px;
+}
+form
+{
+    width: 70%;
+}
+.form-login
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.form-login input
+{
+    width: 90%;
+    height: 45px;
+    margin: 10px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: Helvetica, Arial, sans-serif;
+}
+.form-login input[type=submit]
+{
+    background-color: rgb(77, 76, 76);
+    color: rgb(252, 252, 245);
+}
+.form-login p
+{
+    width: 90%;
+    margin: 10px;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.3em;
+    color: rgb(46, 46, 46);
+}
+.form-login p a
+{
+    text-decoration: none;
+    font-size: 1.3em;
+    color: rgb(248, 248, 248);
+}
+input:focus
+{
+    outline: none;
+}
+
+                                                /* menu page */
+
+.page-menu
+{
+    background-image: url("images/pizza.png");
+    font-size: 16px;
+    min-height: 100vh;
+    z-index: 1;
+}
+.nav-menu
+{
+    width: 100%;
+    height: 8vh;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(36, 99, 36);
+    opacity: 0.8;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+.nav-menu div
+{
+    margin: 20px 20px 10px 20px;
+}
+.nav-menu a
+{
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bolder;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+}
+.page-menu h2
+{
+    text-align: center;
+    font-size: 1.5em;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(22, 22, 22);
+}
+.type
+{
+    background-color: rgb(255, 255, 255);
+    color: rgb(41, 41, 41);
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 1.2em;
+    font-family: Helvetica, Arial, sans-serif;
+    padding: 10px;
+    opacity: 0.9;
+}
+.type:first-of-type
+{
+    margin-top: 10vh;
+}
+
+.cards
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.card
+{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    text-align: center;
+    background-color: white;
+    border-radius: 3px;
+    color: rgb(29, 28, 28);
+    opacity: 0.85;
+    margin-bottom: 15px;
+}
+
+.card:first-of-type
+{
+    margin-top: 20px;
+}
+
+.card1
+{
+    width: 50%;
+    margin: 15px;
+    color: rgb(53, 52, 52);
+}
+.card1 h1
+{
+    font-size: 1.2em;
+}
+.card2
+{
+    width: 25%;
+    padding: 20px;
+    background-color: rgb(245, 244, 242);
+    cursor: pointer;
+}
+.card3
+{
+    width: 25%;
+    padding: 20px;
+    background-color: rgb(230, 228, 228);
+    cursor: pointer;
+}
+
+.small, .large
+{
+    border-bottom: 0.5px solid grey;
+    margin-bottom: 8px;
+    font-size: 1.3em;
+}
+.add 
+{
+    color: green;
+    font-size: 1.5em;
+    margin-top: 5px;
+}
+
+.toppings
+{
+    background-color: rgb(255, 255, 255);
+    width: 65%;
+    height: 200px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    position: absolute;
+    position: fixed;
+    top: 400px;
+    z-index: 1;
+    -webkit-box-shadow: -1px 2px 39px -10px rgba(0,0,0,0.59);
+    -moz-box-shadow: -1px 2px 39px -10px rgba(0,0,0,0.59);
+    box-shadow: -1px 2px 39px -10px rgba(0,0,0,0.59);
+}
+.left
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.left h3
+{
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(34, 34, 34);
+    margin-bottom: 15px;
+}
+.left-hidden
+{
+    display: none;
+}
+select
+{
+    margin: 5px;
+    font-size: 2em;
+}
+.right
+{
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+.right img
+{
+    width: 60%;
+    cursor: pointer;
+}
+.for-all, .for-subs, .for-steak
+{
+    display: none;
+    flex-direction: column;
+}
+.append input
+{
+    margin: 5px;
+    font-size: 1.2em;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(54, 54, 54);
+}
+.cancel
+{
+    position: absolute;
+    top: 15px;
+    right: -20px;
+}
+.cancel img
+{
+    width: 30%;
+}
+.hide-dish, .hide-name, .hide-number, .hide-price
+{
+   display: none;
+}
+.select-subs
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.select-subs p 
+{
+    font-size: 1em;
+    font-family: Helvetica, Arial, sans-serif;
+    margin-top: 5px;
+}
+.cart-bottom
+{
+    height: 10vh;
+    width: 100%;
+    background-color: rgb(210, 66, 33);
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.cart-bottom a 
+{
+    text-decoration: none;
+    color: aliceblue;
+    font-size: 1.2em;
+    font-family: Helvetica, Arial, sans-serif;
+    margin-left: 100px;
+}
+.cart.bottom img
+{
+    width: 50px;
+}
+#margin-bottom
+{
+    height: 10vh;
+}
