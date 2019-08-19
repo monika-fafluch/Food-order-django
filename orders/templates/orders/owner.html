@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--AJAX-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>owner</title>
+        <!--Bootstrap-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!--Internal css stylesheet-->
+        <link href="{% static 'styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+
+            <div class="page-owner">
+                <div class="instr">
+                    <ul>
+                        <li><strong>True status :</strong> order is ready </li>
+                        <li><strong>False status :</strong> order is being prepared</li>
+                        <li><strong>Id column :</strong>  order id from Orders table in database</li>
+                        <li><strong>Remove column :</strong>  results in removing the order from Orders table in database</li>
+                    </ul>
+                </div>
+                <div class="go-db">
+                    <a href="{% url 'admin:index' %}">go to database</a>
+                </div>
+                <div id="custom-table">
+                    <table class="table table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">client</th>
+                            <th scope="col">order</th>
+                            <th scope="col">time</th>
+                            <th scope="col">update</th>
+                            <th scope="col">status </th>
+                            <th scope="col">remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in orders %}
+                            {% if order.status == True %}
+                                <tr class="row-parent">
+                                    <th class="order-id" scope="row">{{order.id}}</th>
+                                    <td>{{order.client.username}}</td>
+                                    <td>{{order.item}} with {{order.topping}}/{{order.topping_steak}}</td>
+                                    <td>{{order.date}}</td>
+                                    <td><button class="done">done</button> </td>
+                                    <td class="change-status">{{order.status}}</td>
+                                    <td><button class="remove-order">remove</button> </td>
+                                </tr>
+                            {% else %}
+                                <tr class="row-parent">
+                                    <th class="order-id" scope="row">{{order.id}}</th>
+                                    <td>{{order.client.username}}</td>
+                                    <td>{{order.item}} with {{order.topping}}/{{order.topping_steak}}</td>
+                                    <td>{{order.date}}</td>
+                                    <td><button class="done">done</button> </td>
+                                    <td class="change-status">{{order.status}}</td>
+                                    <td><button class="remove-order">remove</button> </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+
+        <script>
+            let change_status = {}
+            let remove_order = {}
+            
+            /*$(document).ready(function(){
+                console.log("ok");
+                $.ajax({
+                    url: "/owner_ajax/",
+                    type: "get",
+                    datatype: "json",
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            });*/
+            document.querySelector(".page-owner").addEventListener('click', event => {
+                if (event.target && event.target.matches('button')) {
+                    let targ = event.target;
+                    if (targ.classList.contains('done')) {
+                        let row = targ.parentNode.parentNode;
+                        row.style.backgroundColor = "rgb(66, 102, 66)";
+                        let order_id = row.querySelector(".order-id").innerHTML;
+                        change_status["id"] = order_id;
+                        change_status["status"] = "True";
+                        // change status in innerHTML
+                        row.querySelector(".change-status").innerHTML = "True";
+                        let sendJson = JSON.stringify(change_status);
+                        $(document).ready(function(){
+                            $.ajax({
+                                url: "/owner/",
+                                type: "post",
+                                // csrf token problem solved: https://stackoverflow.com/questions/6506897/csrf-token-missing-or-incorrect-while-post-parameter-via-ajax-in-django
+                                 headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                data: sendJson,
+                                datatype: "json",
+                                success: function(data) {
+                                    console.log("success owner post");
+                                }
+                            });
+                        });
+                    }
+                    if (targ.classList.contains('remove-order')) {
+                        let row = targ.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                        let order_id = row.querySelector(".order-id").innerHTML;
+                        remove_order["id"] = order_id;
+                        remove_order["status"] = "remove";
+                        let sendJson = JSON.stringify(remove_order);
+                        $(document).ready(function(){
+                            $.ajax({
+                                url: "/owner/",
+                                type: "post",
+                                // csrf token problem solved: https://stackoverflow.com/questions/6506897/csrf-token-missing-or-incorrect-while-post-parameter-via-ajax-in-django
+                                 headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                data: sendJson,
+                                datatype: "json",
+                                success: function(data) {
+                                    console.log("success owner remove post");
+                                }
+                            });
+                        });
+                    }
+                }
+            });
+
+        </script>
+    </body>
+</html>

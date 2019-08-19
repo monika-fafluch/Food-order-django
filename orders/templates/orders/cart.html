@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Internal css stylesheet-->
+        <link href="{% static 'styles.css' %}" rel="stylesheet">
+        <!--AJAX-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>cart</title>
+    </head>
+    <body>
+        <div class="page">
+            <div class="nav-cart">
+                <a href="{% url 'menu' %}">Continue ordering</a>
+            </div>
+            <div class="cart-page" id="listen-cart">
+             
+                    <div class="empty">
+                        <div></div>
+                        <div><h1>Your cart is empty.</h1></div>
+                        <div></div>
+                    </div>
+            
+                    <div class="cart-container">
+                        <div class="cart-items">
+                            {% for item in items %}
+                                <div class="cart-item">
+                                    {% if item.name == "Cheese" or item.name == "Special" %}
+                                        <p><em class="item-id">{{item.id}}</em><strong>{{item.name}}</strong></p>
+                                    {% elif item.name == "Steak + Cheese" %}
+                                        <p><em class="item-id">{{item.id}}</em><strong>{{item.name}}</strong> ({{item.toppings_steak}})</p>
+                                    {% else %}
+                                        <p><em class="item-id">{{item.id}}</em><strong>{{item.name}}</strong> ({{item.toppings}})</p>
+                                    {% endif %}
+                                    <div class="cart-a">
+                                        <a href="">remove</a>
+                                    </div>
+                                    <h3><strong>price: </strong>${{item.price}}</h3>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    
+                    </div>
+                    <div class="confirm-position">
+                        <div> 
+                            <div class="total">
+                                total:<strong id="total" data-total="{{total}}"> ${{total}}</strong>
+                            </div>
+                        </div>
+                        <div class="confirm-cart">
+                            <a class="confirmation" href="{% url 'confirm' %}">Confirm</a>
+                        </div>
+                    </div>
+               
+           </div>
+        </div>
+        <script>
+            let removed = []
+            let test = {}
+            let send_id = {"list": []}
+            let countRemovals = 0;
+
+            // reset display styles left after click
+            document.querySelector(".empty").style.display = "none";
+            document.querySelector(".cart-container").style.display = "flex";
+            document.querySelector(".confirm-position").style.display = "flex";
+            // count number of DOM elements (order-card)
+            let number_orders = document.querySelector(".cart-items").childElementCount;
+
+            document.getElementById("listen-cart").addEventListener('click', event => {
+                // collect all item ids from cart and send by ajax to owner_ajax view
+                if (event.target && event.target.matches(".confirmation")) {
+                    let targ = event.target;
+                    let x = targ.parentNode.parentNode.parentNode;
+                    let item_ids = x.querySelectorAll(".item-id");
+                    let i = 0;
+                    for (i; i< item_ids.length; i++) {
+                        let myId = item_ids[i].innerHTML;
+                        send_id["list"].push(myId);
+                    }
+                    // delete orders from cart after confirmation
+                    document.querySelector(".empty").style.display = "flex";
+                    document.querySelector(".cart-container").style.display = "none";
+                    document.querySelector(".confirm-position").style.display = "none";
+                    /*let sendJson = JSON.stringify(send_id);
+                    send_id["list"] = []
+                    console.log(sendJson);
+                    $(document).ready(function(){
+                        console.log("about to send");
+                        $.ajax({
+                            url: "/owner_ajax/",
+                            type: "post",
+                            // csrf token problem solved: https://stackoverflow.com/questions/6506897/csrf-token-missing-or-incorrect-while-post-parameter-via-ajax-in-django
+                            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                            data: sendJson,
+                            datatype: "json",
+                            success: function(data) {
+                                console.log(data);
+                            }
+                        });
+                    })
+                    
+                    alert("ok");*/
+                
+                }
+                if (event.target && event.target.matches("a")) {
+                    // get id of an element to be removed
+                    let elmnt = event.target.parentNode.parentNode;
+                    let to_remove = elmnt.querySelector("em").innerHTML;
+                    removed.push(to_remove);
+                    let total = document.querySelector("#total").dataset.total;
+                    removed.push(total);
+                    test["id"] = to_remove;
+                    test["total"] = total;
+                    elmnt.parentNode.removeChild(elmnt);
+                    countRemovals ++;
+                    // send data to be removed to django view
+                    let sendJson = JSON.stringify(removed)
+                    let sendTest = JSON.stringify(test);
+                    $(document).ready(function(){
+                        $.ajax({
+                            url: "/ajax_view/",
+                            type: "post",
+                            // csrf token problem solved: https://stackoverflow.com/questions/6506897/csrf-token-missing-or-incorrect-while-post-parameter-via-ajax-in-django
+                            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                            data: sendTest, 
+                            dataType: "html",
+                            success: function(data) {
+                                let parsedData = JSON.parse(data)
+                                document.querySelector("#total").innerHTML = parsedData.msg;
+                        }});
+                        removed = []
+                        
+                    });
+                    // display 'your cart is empty' if all orders were removed from cart
+                    console.log(number_orders);
+                    console.log(countRemovals);
+                    
+                    if (number_orders== countRemovals) {
+                        document.querySelector(".empty").style.display = "flex";
+                        document.querySelector(".cart-container").style.display = "none";
+                        document.querySelector(".confirm-position").style.display = "none";
+                    }
+                    
+                    event.preventDefault()
+                    
+                }
+            })
+
+        </script>
+    </body>
+</html>

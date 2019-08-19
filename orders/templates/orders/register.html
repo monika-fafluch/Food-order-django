@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Internal css stylesheet-->
+        <link href="{% static 'styles.css' %}" rel="stylesheet">
+        <!--Ajax/Jquery-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>Login</title>
+    </head>
+    <body>
+        <div class="page">
+            <div class="form-login">
+                <form action="{% url 'register' %}" method="POST">
+                    {% csrf_token %}
+                    <div>
+                        <input type="text" name="username-register" placeholder="username" autofocus required>
+                    </div>
+                    <div>
+                        <input type="password" name="password-register" placeholder="password" required>
+                    </div>
+                    <div>
+                        <input type="password" name="confirm-password" placeholder="confirm password" required>
+                    </div>
+                    {% if error %}
+                        <div>
+                            <p>{{error}}</p>
+                        </div>
+                    {% endif %}
+                    {% if error0 %}
+                        <div>
+                            <p>{{error0}}</p>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <input type="email" id="email" name="email" placeholder="email" required>
+                    </div>
+                    <div>
+                        <input type="tel" name="phone" placeholder="phone number" required>
+                    </div>
+                    <div>
+                        <input type="submit" id="submit" name="submit-login" placeholder="log in">
+                    </div>
+                    <div>
+                        <p>Do you want to <a href="{% url 'index' %}">log in?</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>  // TO DO / doesn't display console.log
+            $(document).ready(function() {
+                $("#submit").submit(function () {
+                    alert("ok");
+                    console.log( $(this).val() );
+                });
+            });
+        </script>
+    </body>
+</html>

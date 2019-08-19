@@ -1,0 +1,705 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+         <!--Internal css stylesheet-->
+         <link href="{% static 'styles.css' %}" rel="stylesheet">
+         <!--AJAX-->
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>Menu</title>
+    </head>
+    <body>
+        <div class="page-menu" id="listen-to">
+            <div class="nav-menu">
+                <div>
+                    <a href="{% url 'logout' %}">log out</a>
+                </div>
+                <div>
+                    <a href="">status</a>
+                </div>
+            </div>
+            <div class="dishes">
+                
+                <div class="type">
+                    <h3>Regular pizza</h3>
+                </div>
+                <!--put it here to avoid problems with dynamically created cards(undefined object)-->
+                <div class="left-hidden">  
+                    <h3>add to cart</h3>
+                </div>
+                <div class="for-subs">
+                    <div class="select">
+                        <div id="append-to">
+                            <div class="append select-subs">
+                                <select class="select-onchange" required>
+                                    <option value="none">none</option>
+                                    <option value="Cheese">Cheese</option>
+                                </select>
+                                <p><em>+ $0.50</em></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="for-steak">
+                    <div class="select">
+                        <div id="append-to">
+                            <div class="append">
+                                <input class="select-checked" type="checkbox" name="Cheese" value="Cheese"> <strong>Cheese </strong>(+ $0.50)<br>
+                                <input class="select-checked" type="checkbox" name="Mushrooms" value="Mushrooms"> <strong>Mushrooms </strong>(+ $0.50)<br>
+                                <input class="select-checked" type="checkbox" name="Green Peppers" value="Green Peppers"> <strong>Green Peppers</strong> (+ $0.50)<br>
+                                <input class="select-checked" type="checkbox" name="Onions" value="Onions"> <strong>Onions</strong> (+ $0.50)<br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cards" id="cards">
+                    {% for item in items %}
+                        <div class="for-all">
+                            <div class="select">
+                                <div id="append-to">
+                                    <div class="append">
+                                        <select class="select select-onchange" required>
+                                            {% for select in selects %}
+                                                <option value="{{select.name}}">{{select.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!---->
+                        <div class="card">
+                            <div class="card1">
+                                <h1>{{item.name}}</h1>
+                            </div>
+                            <div class="card2">
+                                <div class="small">
+                                    small
+                                </div>
+                                <div>
+                                    ${{item.small_price}}
+                                </div>
+                                <div class="add">
+                                    <strong>
+                                        <em class="hide-name">{{item.name}}</em>
+                                        <em class="hide-dish">{{item.dish}}</em>
+                                        <em class="hide-number">{{item.number_toppings}}</em>
+                                        <em class="hide-price">{{item.small_price}}</em>
+                                        +add
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="card3">
+                                <div class="large">
+                                    large
+                                </div>
+                                <div>
+                                    ${{item.large_price}}
+                                </div>
+                                <div class="add">
+                                    <strong>
+                                        <em class="hide-name">{{item.name}}</em>
+                                        <em class="hide-dish">{{item.dish}}</em>
+                                        <em class="hide-number">{{item.number_toppings}}</em>
+                                        <em class="hide-price">{{item.large_price}}</em>
+                                        +add
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    
+                            <div class="toppings">
+                                <div class="left">
+                                    <div>
+                                        <h3><p id="topp">Toppings: </p><em id="empty"></em> </h3>
+                                    </div>
+                                    <div class="append-here">
+
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <img class="img cart" src={% static "images/cart-green.png" %}>
+                                    <div class="cancel">
+                                        <img class="img cancel-img" src={% static "images/cancel.png" %}>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                    {% endfor %}
+                </div>
+
+
+
+
+
+                 <div class="type">
+                    <h3>Sicilian pizza</h3>
+                </div>
+                <div class="cards" id="cards">
+                    {% for item in items_sicilian %}
+                        <div class="card">
+                            <div class="card1">
+                                <h1>{{item.name}}</h1>
+                            </div>
+                            <div class="card2">
+                                <div class="small">
+                                    small
+                                </div>
+                                <div>
+                                    ${{item.small_price}}
+                                </div>
+                                <div class="add">
+                                    <strong>
+                                        <em class="hide-name">{{item.name}}</em>
+                                        <em class="hide-dish">{{item.dish}}</em>
+                                        <em class="hide-number">{{item.number_toppings}}</em>
+                                        <em class="hide-price">{{item.small_price}}</em>
+                                        +add
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="card3">
+                                <div class="large">
+                                    large
+                                </div>
+                                <div>
+                                    ${{item.large_price}}
+                                </div>
+                                <div class="add">
+                                    <strong>
+                                        <em class="hide-name">{{item.name}}</em>
+                                        <em class="hide-dish">{{item.dish}}</em>
+                                        <em class="hide-number">{{item.number_toppings}}</em>
+                                        <em class="hide-price">{{item.large_price}}</em>
+                                        +add
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    
+                            <div class="toppings">
+                                <div class="left">
+                                    <div>
+                                        <h3><p id="topp">Toppings: </p> <em id="empty"></em> </h3>
+                                    </div>
+                                    <div class="append-here">
+                                        
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <img class="img cart" src={% static "images/cart-green.png" %}>
+                                    <div class="cancel">
+                                        <img class="img cancel-img" src={% static "images/cancel.png" %}>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                    {% endfor %}
+                </div>
+
+
+
+
+                <div class="type">
+                    <h3>Subs</h3>
+                </div>
+                <div class="cards" id="cards">
+                    {% for item in subs %}
+                        <div class="card">
+                            <div class="card1">
+                                <h1>{{item.name}}</h1>
+                            </div>
+                            {% if item.small_price == "NO" %}
+                                <div class="card2">
+                                    <h2>-</h2>
+                                </div>
+                            {% else %}
+                                <div class="card2">
+                                    <div class="small">
+                                        small
+                                    </div>
+                                    <div>
+                                        ${{item.small_price}}
+                                    </div>
+                                    <div class="add">
+                                        <strong>
+                                            <em class="hide-name">{{item.name}}</em>
+                                            <em class="hide-dish">{{item.dish}}</em>
+                                            <em class="hide-number">{{item.number_toppings}}</em>
+                                            <em class="hide-price">{{item.small_price}}</em>
+                                            +add
+                                        </strong>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="card3">
+                                <div class="large">
+                                    large
+                                </div>
+                                <div>
+                                    ${{item.large_price}}
+                                </div>
+                                <div class="add">
+                                    <strong>
+                                            <em class="hide-name">{{item.name}}</em>
+                                            <em class="hide-dish">{{item.dish}}</em>
+                                            <em class="hide-number">{{item.number_toppings}}</em>
+                                            <em class="hide-price">{{item.large_price}}</em>
+                                            +add
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    
+                            <div class="toppings">
+                                <div class="left">
+                                    <div>
+                                        <h3>Toppings: <em id="empty"></em> </h3>
+                                    </div>
+                                    <div class="append-here">
+                                        
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <img class="img cart" src={% static "images/cart-green.png" %}>
+                                    <div class="cancel">
+                                        <img class="img cancel-img" src={% static "images/cancel.png" %}>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                    {% endfor %}
+                </div>
+
+
+
+
+
+                    <div class="type">
+                        <h3>Pasta</h3>
+                    </div>
+                    <div class="cards" id="cards">
+                        {% for item in pasta %}
+                            <div class="card">
+                                <div class="card1">
+                                    <h1>{{item.name}}</h1>
+                                </div>
+                                {% if item.small_price == "NO" %}
+                                    <div class="card2">
+                                        <h2>-</h2>
+                                    </div>
+                                {% else %}
+                                    <div class="card2">
+                                        <div class="small">
+                                            small
+                                        </div>
+                                        <div>
+                                            ${{item.small_price}}
+                                        </div>
+                                        <div class="add">
+                                            <strong>
+                                                <em class="hide-name">{{item.name}}</em>
+                                                <em class="hide-dish">{{item.dish}}</em>
+                                                <em class="hide-number">{{item.number_toppings}}</em>
+                                                <em class="hide-price">{{item.small_price}}</em>
+                                                +add
+                                            </strong>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="card3">
+                                    <div class="large">
+                                        large
+                                    </div>
+                                    <div>
+                                        ${{item.large_price}}
+                                    </div>
+                                    <div class="add">
+                                        <strong>
+                                                <em class="hide-name">{{item.name}}</em>
+                                                <em class="hide-dish">{{item.dish}}</em>
+                                                <em class="hide-number">{{item.number_toppings}}</em>
+                                                <em class="hide-price">{{item.large_price}}</em>
+                                                +add
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                                <div class="toppings">
+                                    <div class="left">
+                                        <div>
+                                            <h3>Toppings: <em id="empty"></em> </h3>
+                                        </div>
+                                        <div class="append-here">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="right">
+                                        <img class="img cart" src={% static "images/cart-green.png" %}>
+                                        <div class="cancel">
+                                            <img class="img cancel-img" src={% static "images/cancel.png" %}>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                        {% endfor %}
+                    </div>
+
+
+                        <div class="type">
+                            <h3>Salads</h3>
+                        </div>
+                        <div class="cards" id="cards">
+                            {% for item in salads %}
+                                <div class="card">
+                                    <div class="card1">
+                                        <h1>{{item.name}}</h1>
+                                    </div>
+                                    {% if item.small_price == "NO" %}
+                                        <div class="card2">
+                                            <h2>-</h2>
+                                        </div>
+                                    {% else %}
+                                        <div class="card2">
+                                            <div class="small">
+                                                small
+                                            </div>
+                                            <div>
+                                                ${{item.small_price}}
+                                            </div>
+                                            <div class="add">
+                                                <strong>
+                                                    <em class="hide-name">{{item.name}}</em>
+                                                    <em class="hide-dish">{{item.dish}}</em>
+                                                    <em class="hide-number">{{item.number_toppings}}</em>
+                                                    <em class="hide-price">{{item.small_price}}</em>
+                                                    +add
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <div class="card3">
+                                        <div class="large">
+                                            large
+                                        </div>
+                                        <div>
+                                            ${{item.large_price}}
+                                        </div>
+                                        <div class="add">
+                                            <strong>
+                                                    <em class="hide-name">{{item.name}}</em>
+                                                    <em class="hide-dish">{{item.dish}}</em>
+                                                    <em class="hide-number">{{item.number_toppings}}</em>
+                                                    <em class="hide-price">{{item.large_price}}</em>
+                                                    +add
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                    <div class="toppings">
+                                        <div class="left">
+                                            <div>
+                                                <h3>Toppings: <em id="empty"></em> </h3>
+                                            </div>
+                                            <div class="append-here">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <img class="img cart" src={% static "images/cart-green.png" %}>
+                                            <div class="cancel">
+                                                <img class="img cancel-img" src={% static "images/cancel.png" %}>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                            {% endfor %}
+                        </div>
+
+
+
+
+                        <div class="type">
+                                <h3>Dinner Platters</h3>
+                            </div>
+                            <div class="cards" id="cards">
+                                {% for item in dinner_platters %}
+                                    <div class="card">
+                                        <div class="card1">
+                                            <h1>{{item.name}}</h1>
+                                        </div>
+                            
+                                        <div class="card2">
+                                            <div class="small">
+                                                small
+                                            </div>
+                                            <div>
+                                                ${{item.small_price}}
+                                            </div>
+                                            <div class="add">
+                                                <strong>
+                                                    <em class="hide-name">{{item.name}}</em>
+                                                    <em class="hide-dish">{{item.dish}}</em>
+                                                    <em class="hide-number">{{item.number_toppings}}</em>
+                                                    <em class="hide-price">{{item.small_price}}</em>
+                                                    +add
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="card3">
+                                            <div class="large">
+                                                large
+                                            </div>
+                                            <div>
+                                                ${{item.large_price}}
+                                            </div>
+                                            <div class="add">
+                                                <strong>
+                                                        <em class="hide-name">{{item.name}}</em>
+                                                        <em class="hide-dish">{{item.dish}}</em>
+                                                        <em class="hide-number">{{item.number_toppings}}</em>
+                                                        <em class="hide-price">{{item.large_price}}</em>
+                                                        +add
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                        <div class="toppings">
+                                            <div class="left">  
+                                                <div>
+                                                    <h3>Toppings: <em id="empty"></em> </h3>
+                                                </div>
+                                                <div class="append-here">
+                                                    
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="right">
+                                                <img class="img cart" src={% static "images/cart-green.png" %}>
+                                                <div class="cancel">
+                                                    <img class="img cancel-img" src={% static "images/cancel.png" %}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
+                                {% endfor %}
+                            </div>
+               </div>
+        </div>
+        <div id="margin-bottom"></div>
+        <div class="cart-bottom">
+            <div class="cart-right">
+                sdcsdcsdc
+            </div>
+             <div class="cart-left">
+                <a href="{% url 'cart' %}"><img src={% static "images/checkout.png" %}></a>
+            </div>
+        </div>
+        <!-- csrf token problem solved: https://stackoverflow.com/questions/6506897/csrf-token-missing-or-incorrect-while-post-parameter-via-ajax-in-django-->
+        <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+        <script>
+                    
+                
+                    let orders = [{}, [], []]
+                    flag_toppings = "False";
+                    // Listen to all clicks on the document
+                    document.getElementById("listen-to").addEventListener("click", event => {
+                        check = 0;
+                        // display toppings selection
+                        if (event.target && event.target.matches("strong")) {
+                            // remove old select divs before appending new ones  
+                            const container = document.querySelector(".dishes");
+                            const to_remove = container.querySelectorAll(".for-subs-cloned");
+                            const len = to_remove.length;
+                            if (len >= 1) {
+                                let i = 0;
+                                for (i = 0; i < len; i++) {
+                                    to_remove[i].parentNode.removeChild(to_remove[i]);
+                                }
+                            }
+                            // remove add to cart h3 after every click
+                            const to_remove1 = container.querySelectorAll(".left-hidden");
+                            const len1 = to_remove1.length;
+                            if (len1 >= 1) {
+                                let i = 0;
+                                for (i = 0; i < len1; i++) {
+                                    if (to_remove1[i] == to_remove1[0]) {
+                                        continue;
+                                    }
+                                    to_remove1[i].parentNode.removeChild(to_remove1[i]);
+                                }
+                            }
+                            // reset some values needed for various types of dishes
+                            document.querySelector("#topp").innerHTML = "Toppings:";
+                            document.querySelector("#empty").innerHTML = "";
+                            document.querySelector(".left").style.display = "flex";
+                            document.querySelector(".left-hidden").style.display = "none";
+                        
+                            // retrieve hidden data about items
+                            const name = event.target.querySelector(".hide-name").innerHTML;
+                            const number = event.target.querySelector(".hide-number").innerHTML;
+                            const dish = event.target.querySelector(".hide-dish").innerHTML;
+                            let price =  parseFloat(event.target.querySelector(".hide-price").innerHTML);
+
+
+                            // store bought items
+                            orders[0]["name"] = name;
+                            orders[0]["dish"] = dish;
+                            orders[0]["price"] = price;
+                            
+                            // display toppings div
+                            const x = document.querySelector(".toppings");
+                            x.style.display = "flex";
+                            
+                            
+                            // select options for regular and sicilian pizza
+                            if ((dish == "regular pizza" || dish == "sicilian pizza") && name != "Cheese" && name != "Special") {
+    
+                                const el = document.querySelector(".for-all");
+                                const cloning = el.cloneNode(true);
+                                cloning.setAttribute("class", "for-subs-cloned");
+                                cloning.style.display = "flex";
+                                const div = document.querySelector(".append-here");
+                                let i = 0;
+                                // clone hidden element and append to dynamically created cards
+                                while (i < number) {
+                                    const el = document.querySelector(".for-all");
+                                    const cloning = el.cloneNode(true);
+                                    cloning.setAttribute("class", "for-subs-cloned");
+                                    cloning.querySelector(".select-onchange").onchange = () => {
+                                        let x = cloning.querySelector(".select-onchange").value;
+                                        orders[1].push(x);
+                           
+                                    }
+                                    
+                                    cloning.style.display = "flex";
+                                    const div = document.querySelector(".append-here");
+                                    div.append(cloning);
+                                    i++;
+                                    
+                                }
+                                flag_toppings = "True";
+                                
+
+                                
+                            }
+                            // modify for 2 kinds of pizza/no select tag
+                                if (name == "Cheese") {
+                                    document.querySelector("#empty").innerHTML = "Cheese";
+                                    flag_toppings = "False";
+                                }
+                                if (name == "Special") {
+                                    document.querySelector("#empty").innerHTML = "Garlic & Pineapple";
+                                    flag_toppings = "False";
+                                }
+
+                            // append select options for subs
+                            if (dish == "Subs" && name != "Steak + Cheese") {
+                                const el = document.querySelector(".for-subs");
+                                const cloning = el.cloneNode(true);
+                                cloning.setAttribute("class", "for-subs-cloned");
+                                cloning.style.display = "flex";
+                                const div = document.querySelector(".append-here");
+                                let i = 0;
+                                while (i < number) { 
+                                    // append onchange event to save chosen values
+                                    cloning.querySelector(".select-onchange").onchange = () => {
+                                        let x = cloning.querySelector(".select-onchange").value;
+                                        orders[1].push(x);
+                                    
+                                    }
+                                    div.append(cloning);
+                                    i++;
+                                }
+                        
+
+                                flag_toppings = "True";
+                            }
+                            if (name == "Steak + Cheese") {
+                                const el = document.querySelector(".for-steak");
+                                const cloning = el.cloneNode(true);
+                                cloning.setAttribute("class", "for-subs-cloned");
+                                cloning.style.display = "flex";
+                                // append onclick event to save checked values
+                                cloning.querySelector(".append").onclick = () => {
+                                    let x = cloning.querySelector(".append");
+                                    let arr = x.querySelectorAll(".select-checked");
+                                    let i = 0;
+                                    
+                                    while (i < arr.length) {
+                                        if (arr[i].checked) {
+                                            if (!orders[2].includes(arr[i].value)) {
+                                                orders[2].push(arr[i].value);
+                                            }
+                                        }
+                                        i++;
+                                    }
+                                }
+                                const div = document.querySelector(".append-here");
+                                div.append(cloning);
+                                flag_toppings = "True";
+                                
+                            } 
+                            
+
+                            if (dish == "Salad" || dish == "Dinner Platters" || dish == "Pasta") {
+                                document.querySelector(".left").style.display = "none";
+                                const appending = document.querySelector(".toppings");
+                                const elmnt = document.querySelector(".left-hidden");
+                                const cloning = elmnt.cloneNode(true);
+                                cloning.style.display = "flex";
+                                appending.append(cloning);
+                                flag_toppings = "False";
+                            }
+                           
+                        }
+                        
+                        // add to cart
+                        if(event.target && event.target.matches("img") && event.target.classList.contains("cart")) {
+                            const x = document.querySelector(".toppings");
+                            x.style.display = "none";
+                            // add toppings price to total for subs
+                            if (orders[0]["dish"] == "Subs" && orders[0]["name"] != "Steak + Cheese" && orders[1].length > 0) {
+                                orders[0]["price"] = parseFloat(orders[0]["price"]) + 0.5;
+                            }
+                            if (orders[0]["dish"] == "Subs" && orders[0]["name"] == "Steak + Cheese") {
+                                orders[0]["price"] = parseFloat(orders[0]["price"]) + (orders[2].length * 0.5);
+                            }
+                            let jsonSend = JSON.stringify(orders) //SEND PRICES TO DATABASE TOMORROW!!!!!!!
+                            $(document).ready(function(){
+                
+                                    $.ajax({
+                                        url: "/menu/",
+                                        type: "post",
+                                        // csrf token problem solved: https://stackoverflow.com/questions/6506897/csrf-token-missing-or-incorrect-while-post-parameter-via-ajax-in-django
+                                        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                        data: jsonSend, 
+                                        dataType: "html",
+                                        success: function(data) {
+
+                                            console.log(data);
+                                    }});
+                              
+                            });
+                            console.log(orders)
+                            orders = [{}, [], []]
+
+                        }
+                        // close the toppings selection window
+                        if(event.target && event.target.matches("img") && event.target.classList.contains("cancel-img")) {
+                            const x = document.querySelector(".toppings");
+                            x.style.display = "none";
+                            //reset arrays after every purchase
+                            toppings = [];
+                            toppings_steak = []
+                            orders = [{}, [], []]
+                        }
+                }, false)
+
+                 
+        </script>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Internal css stylesheet-->
+        <link href="{% static 'styles.css' %}" rel="stylesheet">
+        <!--AJAX-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>cart</title>
+    </head>
+    <body>
+        <div class="page">
+            <dic class="confirm-page">
+                <div>
+                    <h1> Your order was placed!</h1>
+                </div>
+                <div>
+                    <a href="{% url 'menu' %}">Go to menu</a>
+                </div>
+            </dic>
+        </div>
+    </body>
+</html>
